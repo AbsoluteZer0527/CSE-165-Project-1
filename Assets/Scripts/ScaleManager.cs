@@ -8,6 +8,7 @@ public class ScaleManager : MonoBehaviour
     public Transform rightController;
     public Transform leftController;
     public InputActionReference leftTriggerAction;
+    public InputActionReference rightTriggerAction;
 
     private GameObject scalingObject;
     private XRGrabInteractable grabbedInteractable;
@@ -15,14 +16,27 @@ public class ScaleManager : MonoBehaviour
     private Vector3 initialWorldScale;
     private bool isScaling = false;
 
-    void OnEnable() { leftTriggerAction.action.Enable(); }
-    void OnDisable() { leftTriggerAction.action.Disable(); }
+    void OnEnable()
+    {
+        leftTriggerAction.action.Enable();
+        rightTriggerAction.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        leftTriggerAction.action.Disable();
+        rightTriggerAction.action.Disable();
+    }
 
     void Update()
     {
         bool leftTrigger = leftTriggerAction.action.ReadValue<float>() > 0.5f;
+        bool rightTrigger = rightTriggerAction.action.ReadValue<float>() > 0.5f;
 
-        // Find currently grabbed object by ray interactor
+        // Either trigger can activate scaling
+        bool anyTrigger = leftTrigger || rightTrigger;
+
+        // Find currently grabbed object by ray interactor (right hand)
         GameObject currentlyGrabbed = null;
         XRGrabInteractable foundInteractable = null;
 
@@ -37,12 +51,14 @@ public class ScaleManager : MonoBehaviour
             }
         }
 
-        // Also check proximity selector
+        // Also check proximity selector (left hand)
         var proximitySelector = FindAnyObjectByType<ProximitySelector>();
         GameObject proximityHeld = proximitySelector != null ?
             proximitySelector.GetHeldObject() : null;
 
-        // Prefer proximity held object
+        // If right hand grips → left trigger scales
+        // If left hand grips → right trigger scales
+        // Either way anyTrigger works
         if (proximityHeld != null)
             currentlyGrabbed = proximityHeld;
 
@@ -58,33 +74,48 @@ public class ScaleManager : MonoBehaviour
         scalingObject = currentlyGrabbed;
         grabbedInteractable = foundInteractable;
 
-        // SCALE when left trigger held while anything is grabbed
-        if (leftTrigger && !isScaling)
+        // START scaling when any trigger pressed while something grabbed
+        if (anyTrigger && !isScaling)
         {
-            isScaling = true;
+            // Prevent scaling with same hand that's grabbing
+            // Right hand grabbed → only left trigger scales
+            // Left hand grabbed → only right trigger scales
+            bool rightHandGrabbing = foundInteractable != null && foundInteractable.isSelected;
+            bool leftHandGrabbing = proximityHeld != null;
 
-            if (grabbedInteractable != null)
-                grabbedInteractable.trackScale = false;
+            bool shouldScale = false;
 
-            initialHandDistance = Vector3.Distance(
-                rightController.position, leftController.position);
-            if (initialHandDistance < 0.05f) initialHandDistance = 0.05f;
+            if (rightHandGrabbing && leftTrigger) shouldScale = true;
+            if (leftHandGrabbing && rightTrigger) shouldScale = true;
+            if (rightHandGrabbing && leftHandGrabbing) shouldScale = true; // both hands holding
 
-            initialWorldScale = scalingObject.transform.lossyScale;
+            if (shouldScale)
+            {
+                isScaling = true;
 
-            var hl = scalingObject.GetComponent<HighlightOnHover>();
-            if (hl != null) hl.SetScaling(true);
+                if (grabbedInteractable != null)
+                    grabbedInteractable.trackScale = false;
 
-            Debug.Log("Scaling started! dist=" + initialHandDistance);
+                initialHandDistance = Vector3.Distance(
+                    rightController.position, leftController.position);
+                if (initialHandDistance < 0.05f) initialHandDistance = 0.05f;
+
+                initialWorldScale = scalingObject.transform.lossyScale;
+
+                var hl = scalingObject.GetComponent<HighlightOnHover>();
+                if (hl != null) hl.SetScaling(true);
+
+                Debug.Log("Scaling started!");
+            }
         }
 
-        // Stop scaling when left trigger released
-        if (!leftTrigger && isScaling)
+        // STOP scaling when trigger released
+        if (!anyTrigger && isScaling)
         {
             StopScaling();
         }
 
-        // Apply scale every frame while scaling
+        // APPLY scale every frame
         if (isScaling && scalingObject != null)
         {
             float currentDistance = Vector3.Distance(
@@ -109,8 +140,6 @@ public class ScaleManager : MonoBehaviour
             {
                 t.localScale = targetWorldScale;
             }
-
-            Debug.Log("Scaling: factor=" + scaleFactor + " dist=" + currentDistance);
         }
     }
 
