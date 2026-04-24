@@ -9,6 +9,8 @@ public class ProximitySelector : MonoBehaviour
     // Grip = grab, Trigger = scale (handled by ScaleManager)
     public InputActionReference leftGripAction;
     public InputActionReference leftTriggerAction; // for rotate
+
+    public InputActionReference rightGripAction;
     public float grabRadius = 0.2f;
 
     [Header("Sphere Visual")]
@@ -47,6 +49,7 @@ public class ProximitySelector : MonoBehaviour
     void Start()
     {
         CreateVisualSphere();
+
     }
 
     void CreateVisualSphere()
@@ -83,9 +86,17 @@ public class ProximitySelector : MonoBehaviour
     {
         bool leftGrip = leftGripAction.action.ReadValue<float>() > 0.5f;
         bool leftTrigger = leftTriggerAction.action.ReadValue<float>() > 0.5f;
+        bool rightGrip = rightGripAction.action.ReadValue<float>() > 0.5f;
 
-        // Find nearest object
-        Collider[] hits = Physics.OverlapSphere(leftController.position, grabRadius);
+        // Both grips held = expanded occluded selection mode
+        float currentRadius = (leftGrip && rightGrip) ? grabRadius * 5f : grabRadius;
+
+        // Update visual sphere size
+        if (visualSphere != null)
+            visualSphere.transform.localScale = Vector3.one * currentRadius * 2f;
+
+        // Find nearest object using currentRadius (not grabRadius)
+        Collider[] hits = Physics.OverlapSphere(leftController.position, currentRadius);
         GameObject nearest = null;
         float minDist = float.MaxValue;
 
@@ -163,7 +174,6 @@ public class ProximitySelector : MonoBehaviour
 
         gripWasPressed = leftGrip;
     }
-
     System.Collections.IEnumerator GrabNextFrame(GameObject obj)
     {
         yield return null;
