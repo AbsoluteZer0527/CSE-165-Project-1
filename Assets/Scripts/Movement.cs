@@ -37,26 +37,29 @@ public class Movement : MonoBehaviour
     {
         TryGetDevices();
 
-        // MOVEMENT — left thumbstick
-        leftDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 leftStick);
-
-        if (leftStick.magnitude > 0.1f)
+        if (!SpawnManager.Instance.SpawnCanvasActive)
         {
-            // Move relative to where camera is looking
-            Vector3 forward = mainCamera.forward;
-            forward.y = 0;
-            forward.Normalize();
+            // MOVEMENT — left thumbstick
+            leftDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 leftStick);
 
-            Vector3 right = mainCamera.right;
-            right.y = 0;
-            right.Normalize();
+            if (leftStick.magnitude > 0.1f)
+            {
+                // Move relative to where camera is looking
+                Vector3 forward = mainCamera.forward;
+                forward.y = 0;
+                forward.Normalize();
 
-            Vector3 move = (forward * leftStick.y + right * leftStick.x)
-                           * moveSpeed * Time.deltaTime;
+                Vector3 right = mainCamera.right;
+                right.y = 0;
+                right.Normalize();
 
-            transform.position += move;
+                Vector3 move = (forward * leftStick.y + right * leftStick.x)
+                               * moveSpeed * Time.deltaTime;
+
+                transform.position += move;
+            }
         }
-
+        
         // SNAP TURN — right thumbstick
         rightDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 rightStick);
 

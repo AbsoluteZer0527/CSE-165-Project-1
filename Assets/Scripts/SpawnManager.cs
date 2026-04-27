@@ -9,6 +9,9 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance;
+    public bool SpawnCanvasActive => spawnCanvas.gameObject.activeSelf;
+
     [SerializeField] private List<GameObject> spawnableModels;
     private int selectedIndex;
     private Vector3 lookPoint;
@@ -29,6 +32,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Canvas spawnCanvas;
     [SerializeField] private Transform equipmentTransform;
     [SerializeField] private GameObject placementGhost;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
