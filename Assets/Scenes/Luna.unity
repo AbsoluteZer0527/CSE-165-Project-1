@@ -742,6 +742,7 @@ GameObject:
   - component: {fileID: 1040664385}
   - component: {fileID: 1040664384}
   - component: {fileID: 1040664387}
+  - component: {fileID: 1040664388}
   m_Layer: 0
   m_Name: XR Origin (VR)
   m_TagString: Untagged
@@ -812,6 +813,22 @@ MonoBehaviour:
   mainCamera: {fileID: 890512937}
   moveSpeed: 3
   snapAngle: 45
+--- !u!114 &1040664388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040664383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7b2cfe370afcf438c6f79ea6e21459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControllerIndicator
+  leftController: {fileID: 1809860515}
+  rightController: {fileID: 1715583849}
+  travelIndicatorOffset: {x: 0, y: 0.12, z: 0}
+  selectionIndicatorOffset: {x: 0, y: 0.08, z: 0.05}
 --- !u!1 &1266882359 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4911322874763623340, guid: 1f36b968b07feae4f87727b09d09cde9, type: 3}
@@ -1164,6 +1181,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1676018093}
     m_Modifications:
+    - target: {fileID: 3475118261464492563, guid: 9f3369e30fbd31f4bb596b1a99babe83, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3475118261464492563, guid: 9f3369e30fbd31f4bb596b1a99babe83, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.517
