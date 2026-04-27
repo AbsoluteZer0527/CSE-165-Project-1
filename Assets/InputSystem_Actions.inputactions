@@ -1090,7 +1090,7 @@
                 {
                     "name": "",
                     "id": "85c7b113-6e35-4723-aa3b-c98baff16572",
-                    "path": "<XRInputV1::Oculus::MetaQuestTouchPlusControllerOpenXR>{RightHand}/thumbstick",
+                    "path": "<XRInputV1::Oculus::MetaQuestTouchPlusControllerOpenXR>{LeftHand}/thumbstick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
