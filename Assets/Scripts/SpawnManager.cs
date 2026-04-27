@@ -40,23 +40,6 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-        // Ghost
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 5, Color.green);
-        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, 5);
-        if (hitInfo.collider != null)
-        {
-            lookPoint = hitInfo.point;
-        }
-        else
-        {
-            lookPoint = Camera.main.transform.position + Camera.main.transform.forward * 5;
-        }
-        if (placementGhost != null && placementGhost.GetComponent<MeshRenderer>() != null)
-        {
-            placementGhost.transform.position = lookPoint + Vector3.up * placementGhost.GetComponent<MeshRenderer>().bounds.size.y / 2f;
-            placementGhost.transform.rotation = Quaternion.Euler(0, placeAngle, 0);
-        }
-
         // Input
         if (toggleSpawnMenu.action.WasPressedThisFrame())
         {
@@ -72,28 +55,47 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        if (navigateUp.action.WasPressedThisFrame())
+        if (spawnCanvas.gameObject.activeSelf)
         {
-            selectedIndex -= 1;
-            if (selectedIndex < 0 )
+            if (navigateUp.action.WasPressedThisFrame())
             {
-                selectedIndex = spawnableModels.Count - 1;
+                selectedIndex -= 1;
+                if (selectedIndex < 0)
+                {
+                    selectedIndex = spawnableModels.Count - 1;
+                }
+                SelectButton(selectedIndex);
             }
-            SelectButton(selectedIndex);
-        }
-        if (navigateDown.action.WasPressedThisFrame())
-        {
-            selectedIndex += 1;
-            selectedIndex %= spawnableModels.Count;
-            SelectButton(selectedIndex);
-        }
+            if (navigateDown.action.WasPressedThisFrame())
+            {
+                selectedIndex += 1;
+                selectedIndex %= spawnableModels.Count;
+                SelectButton(selectedIndex);
+            }
 
-        if (spawnObject.action.WasPressedThisFrame())
-        {
-            SpawnEquipment(selectedIndex);
-        }
+            if (spawnObject.action.WasPressedThisFrame())
+            {
+                SpawnEquipment(selectedIndex);
+            }
 
-        placeAngle += stickRotate.action.ReadValue<Vector2>().x * Time.deltaTime * 100;
+            // Ghost
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 5, Color.green);
+            Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, 5);
+            if (hitInfo.collider != null)
+            {
+                lookPoint = hitInfo.point;
+            }
+            else
+            {
+                lookPoint = Camera.main.transform.position + Camera.main.transform.forward * 5;
+            }
+            if (placementGhost != null && placementGhost.GetComponent<MeshRenderer>() != null)
+            {
+                placementGhost.transform.position = lookPoint + Vector3.up * placementGhost.GetComponent<MeshRenderer>().bounds.size.y / 2f;
+                placementGhost.transform.rotation = Quaternion.Euler(0, placeAngle, 0);
+            }
+            placeAngle += stickRotate.action.ReadValue<Vector2>().x * Time.deltaTime * 100;
+        }
     }
 
     private void SelectButton(int index)
