@@ -707,11 +707,11 @@ MonoBehaviour:
   spawnEquipmentButtonPrefab: {fileID: 8246374692135437584, guid: 71cea6b566723eb48b1f0d945799791f, type: 3}
   onHoverMaterial: {fileID: 2100000, guid: 3b621bfcf3603b64db1be46e0204c30c, type: 2}
   onGrabMaterial: {fileID: 2100000, guid: 1492b18ddc6731148b3fe5353851e828, type: 2}
-  toggleSpawnMenu: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  spawnObject: {fileID: 1781555164194001046, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  navigateUp: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  navigateDown: {fileID: 7040659881675835329, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  stickRotate: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  toggleSpawnMenu: {fileID: 6123882858348900224, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  spawnObject: {fileID: 2670692726995099093, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  navigateUp: {fileID: -2858333756198197973, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  navigateDown: {fileID: 2005352260328675232, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  stickRotate: {fileID: -1344851640661322574, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   spawnCanvas: {fileID: 6452382578968756419}
   equipmentTransform: {fileID: 948458937}
   placementGhost: {fileID: 0}
@@ -911,7 +911,7 @@ MonoBehaviour:
   leftController: {fileID: 1809860515}
   leftGripAction: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   leftTriggerAction: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  rightGripAction: {fileID: 0}
+  rightGripAction: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   grabRadius: 0.2
   sphereIdleColor: {r: 0, g: 1, b: 1, a: 0.15}
   sphereHoverColor: {r: 1, g: 1, b: 0, a: 0.3}
@@ -1249,8 +1249,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScaleManager
   rightController: {fileID: 1715583849}
   leftController: {fileID: 1809860515}
-  leftTriggerAction: {fileID: 0}
-  rightTriggerAction: {fileID: 0}
+  leftTriggerAction: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rightTriggerAction: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!4 &1828675298
 Transform:
   m_ObjectHideFlags: 0
@@ -1359,7 +1359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2137302279
 MonoBehaviour:
   m_ObjectHideFlags: 0
