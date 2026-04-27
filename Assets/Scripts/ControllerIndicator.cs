@@ -21,13 +21,13 @@ public class ControllerIndicator : MonoBehaviour
         // Travel indicators
         leftTravelIndicator = CreateIndicator(
             leftController,
-            "⊕ Move",
+            "Joint Stick = Move/rotate spawning",
             Color.cyan,
             travelIndicatorOffset);
 
         rightTravelIndicator = CreateIndicator(
             rightController,
-            "↻ Turn",
+            "Joint Stick = Turn",
             Color.yellow,
             travelIndicatorOffset);
 
